@@ -122,7 +122,7 @@ module.exports.createAndUpdateSAQ = (tempID, userID, answers, callback) => {
           if (err) {
             callback(err);
           } else {
-            updateSAQAnswers(ansq,answers, callback);
+            updateSAQAnswers(ansq, answers, callback);
           }
         });
       }
@@ -139,8 +139,7 @@ let updateSAQAnswers = (ansq, answers, callback) => {
       item.save((err) => {
         if (err) {
           callback(err);
-        } else {
-          if (index + 1 == array.length)
+        } else if (index + 1 == array.length) {
           callback(null, ansq._id);
         }
       });

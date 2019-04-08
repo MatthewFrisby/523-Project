@@ -17,8 +17,8 @@ db.once('open', function () {
 });
 
 let user = new SuperUser({
-    "email":"testuser@test.com",
-    "password":"test",
+    "email":"admin",
+    "password":"password",
     "fname":"test",
     "lname":"test",
     "address":"test",

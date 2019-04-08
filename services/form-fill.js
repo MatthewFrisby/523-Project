@@ -660,7 +660,7 @@ const editForm = (PDFData, formData, callback) => {
     fillForm(writer, formData, {
         defaultTextOptions: {
             font: writer.getFontForFile('./tempstore/Roboto-Regular.ttf'),
-            size: 10,
+            size: 14,
             colorspace: 'gray',
             color: 0,
         },

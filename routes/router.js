@@ -82,9 +82,9 @@ SuperUser.authenticate(superuserdata.email, superuserdata.password, function(err
 router.get('/api/superuser/find/:_id', cors(corsOptions),function(req, res, next){
 SuperUser.findById(req.params._id).exec((err, superuser) => {
   if (err) {
-    res.json({success: false, message: err.message});
+    return res.json({success: false, message: err.message});
   } else {
-    res.json({success: true, data: superuser});
+    return res.json({success: true, data: superuser});
   }
 });
 
@@ -121,9 +121,9 @@ router.post('/api/:_id/create', cors(corsOptions), (req, res, next) => {
     let subUserData = new SubUser();
     SubUser.addSub(subUserData, (err, savedSub) => {
       if (err) {
-        res.json({success: false, message: err.message});
+        return res.json({success: false, message: err.message});
       } else {
-        res.json({success: true, message: "Subuser created", data: savedSub});
+        return res.json({success: true, message: "Subuser created", data: savedSub});
       }
     });
   } else {
@@ -150,9 +150,9 @@ router.post('/api/admin/question', (req, res, next) => {
 
   newQuestion.save((err, question) => {
     if (err) {
-      res.json({success: false, message: err.message});
+      return res.json({success: false, message: err.message});
     } else {
-      res.json({success: true, message:'Question posted', data: question});
+      return res.json({success: true, message:'Question posted', data: question});
     }
   });
 });
@@ -169,9 +169,9 @@ router.post('/api/admin/SAQTemplate', (req, res, next) => {
   });
   newSAQTemplate.save((err, template) => {
     if (err) {
-      res.json({success: false, message: err.message});
+      return res.json({success: false, message: err.message});
     } else {
-      res.json({success: true, message:'SAQ template posted', data: template});
+      return res.json({success: true, message:'SAQ template posted', data: template});
     }
   });
 });
@@ -180,15 +180,15 @@ router.post('/api/admin/SAQTemplate', (req, res, next) => {
 router.get('/api/SAQ/:id', (req, res, next) => {
   SAQTemplate.findById(req.params.id).populate('questions').exec((err, question) => {
     if (err) {
-      res.json({success: false, message: err.message});
+      return res.json({success: false, message: err.message});
     } else {
-      res.json({success: true, data: question.questions});
+      return res.json({success: true, data: question.questions});
     }
   });
 });
 
 
-router.post('/api/SAQ/:_id/AccountSAQ', (req,res, next) => {
+router.post('/api/SAQ/:_id/AccountSAQ', (req, res, next) => {
 
 });
 
@@ -205,24 +205,25 @@ JSON format is as follows:
 } */
 
 router.post('/api/SAQ/:_id/completesaq/:templateid', (req, res, next) => {
+  console.log(req.params.templateid +" "+ req.params._id);
   AccountSAQ.createAndUpdateSAQ(req.params.templateid, req.params._id, req.body.answers, (err, acctSAQ) => {
     if (err) {
-      res.json({success: false, message: err.message});
+      return res.json({success: false, message: err.message});
     } else { 
       AccountSAQ.getAccountSAQJSON(acctSAQ, (err, acctJSON) => {
         if (err) {
-          res.json({success: false, message: err.message});
+          return res.json({success: false, message: err.message});
         } else {
           req.body.answers = acctJSON;
           s3Handling.editForm({Bucket: process.env.S3_BUCKET, Key:req.params.templateid+'.pdf'}, req.body, (err, data) => {
             if (err) {
-              res.json({success: false, message: err.message});
+              return res.json({success: false, message: err.message});
             } else {
-              s3Handling.upload(req.params._id, data, req.body.name, (err) => {
+              s3Handling.upload(req.params._id, data, req.params.templateid, (err) => {
                 if (err) {
-                  res.json({success: false, message: err.message});
+                  return res.json({success: false, message: err.message});
                 } else {
-                  res.json({success: true, message: "Success"});
+                  return res.json({success: true, message: "Success"});
                 }
               });
             }
@@ -238,9 +239,9 @@ Returns an array of the keys of all files in that folder */
 router.get('/api/SAQ/:_id/getkeys', (req, res, next) => {
   s3Handling.getFolderKeys(req.params._id, (err, keyArray) => {
     if (err) {
-      res.json({success: false, message: err.message});
+      return res.json({success: false, message: err.message});
     } else {
-      res.json({success: true, keys: keyArray});
+      return res.json({success: true, keys: keyArray});
     }
   });
 });
@@ -249,7 +250,7 @@ router.get('/api/SAQ/:_id/getkeys', (req, res, next) => {
 router.post('/api/SAQ/getform', (req, res, next) => {
   s3Handling.downloadFile(req.body.key, (err, data) => {
     if (err) {
-      res.json({success: false, message: err.message});
+      return res.json({success: false, message: err.message});
     } else {
       //res.download(data.Body);
       res.writeHead(200, {
@@ -257,7 +258,7 @@ router.post('/api/SAQ/getform', (req, res, next) => {
         'Content-Disposition': 'attachment; filename=some_file.pdf',
         'Content-Length': data.Body.length
       });
-      res.end(data.Body);
+      return res.end(data.Body);
     }
   });
 });
@@ -266,9 +267,9 @@ router.post('/api/SAQ/getform', (req, res, next) => {
 router.get('/api/admin/S3/keys', (req, res, next) => {
   s3Handling.getFolderKeys(null, (err, keys) => {
     if (err) {
-      res.json({success: false, message: err.message});
+      return res.json({success: false, message: err.message});
     } else {
-      res.json({success: true, message: "Success", data: keys});
+      return res.json({success: true, message: "Success", data: keys});
     }
   });
 });
@@ -281,9 +282,9 @@ router.get('/api/admin/S3/keys', (req, res, next) => {
 router.post('/api/SAQ/:_id/accountSAQ', (req, res, next) => {
   AccountSAQ.buildAccountSAQ(req.body.templateid, req.params._id, req.body.name, (err, newSAQ) => {
     if (err) {
-      res.json({success: false, message: err.message});
+      return res.json({success: false, message: err.message});
     } else {
-      res.json({success: true, AccountSAQ: newSAQ});
+      return res.json({success: true, AccountSAQ: newSAQ});
     }
   });
 });
@@ -291,9 +292,9 @@ router.post('/api/SAQ/:_id/accountSAQ', (req, res, next) => {
 router.get('/api/test/accountSAQ', (req, res, next) => {
   AccountSAQ.getAccountSAQJSON(req.body.id, (err, newJSON) => {
     if (err) {
-      res.json({success: false, message: err.message});
+      return res.json({success: false, message: err.message});
     } else {
-      res.json({success: true, questions: newJSON});
+      return res.json({success: true, questions: newJSON});
     }
   });
 });
