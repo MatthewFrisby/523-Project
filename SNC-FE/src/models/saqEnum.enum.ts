@@ -1,5 +1,5 @@
 export enum SAQEnum{
-A = "5ca91053b1c77b51f8b96675",
+A = "SAQAv3",
 AEP = "",
 B = "",
 BIP="",

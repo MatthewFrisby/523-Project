@@ -76,6 +76,7 @@ export class Form implements OnInit {
   }
 
   onSubmit() {
+    this.saq.submitSAQ(this.getEnum(this.type), this.saqForm.value).subscribe(data=>{console.log(data)});
 
   }
 

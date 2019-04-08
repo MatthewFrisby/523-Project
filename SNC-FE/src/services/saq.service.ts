@@ -31,5 +31,8 @@ private getFromLocal(){
    return this.http.get<ResponseA>(this._url+"/SAQ/"+saqType);
  }
 
+submitSAQ(template: String, saqform: any): Observable<Response>{
+  return this.http.post<Response>(this._url+"/SAQ/"+this.getFromLocal+'/completesaq/'+template, saqform );
+}
 
 }
