@@ -205,7 +205,7 @@ JSON format is as follows:
 } */
 
 router.post('/api/SAQ/:_id/completesaq/:templateid', (req, res, next) => {
-  AccountSAQ.updateSAQAnswers(req.params.templateid, req.params._id, req.body.answers, (err, acctSAQ) => {
+  AccountSAQ.createAndUpdateSAQ(req.params.templateid, req.params._id, req.body.answers, (err, acctSAQ) => {
     if (err) {
       res.json({success: false, message: err.message});
     } else {

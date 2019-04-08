@@ -2,15 +2,14 @@ const mongoose = require('mongoose');
 const Question = require('./Question')
 
 const SAQTemplateSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
   questions : [{
     type:  String, 
     ref: 'Question',
     required: true
-  }]
+  }],
+  _id: {
+    type: String,
+  }
 }, 
 {
   timestamps: true

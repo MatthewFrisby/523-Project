@@ -110,30 +110,40 @@ module.exports.buildAccountSAQ = (templateID, userID, name, callback) => {
   });
 }
 
-module.exports.updateSAQAnswers = (tempID, userID, answers, callback) => {
+module.exports.createAndUpdateSAQ = (tempID, userID, answers, callback) => {
   AccountSAQ.findOne({superuserid: userID, templateid: tempID}).populate('answeredquestions').exec((err, ansq) => {
     if (err) {
       callback(err);
     } else {
-      if (ansq == null) { 
-        buildAccountSAQ(tempID, userID, tempID + userID, callback);
+      if (ansq) {
+        updateSAQAnswers(ansq, callback);
       } else {
-        ansq.answeredquestions.forEach((item, index, array) => {
-          if (typeof answers[item.question] === 'undefined') {
-            if (index + 1 == array.length) callback(null, AccountSAQ.findById(ansq._id));
+        buildAccountSAQ(tempID, userID, tempID + userID, (err, ansq) => {
+          if (err) {
+            callback(err);
           } else {
-            item.answer = answers[item.question];
-            item.save((err) => {
-              if (err) {
-                callback(err);
-              } else {
-                if (index + 1 == array.length) 
-                callback(null, ansq._id);
-              }
-            });
+            updateSAQAnswers(ansq,answers, callback);
           }
         });
       }
+    }
+  });
+}
+
+let updateSAQAnswers = (ansq, answers, callback) => {
+  ansq.answeredquestions.forEach((item, index, array) => {
+    if (typeof answers[item.question] === 'undefined') {
+      if (index + 1 == array.length) callback(null, AccountSAQ.findById(ansq._id));
+    } else {
+      item.answer = answers[item.question];
+      item.save((err) => {
+        if (err) {
+          callback(err);
+        } else {
+          if (index + 1 == array.length) 
+          callback(null, ansq._id);
+        }
+      });
     }
   });
 }
