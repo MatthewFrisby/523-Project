@@ -204,8 +204,8 @@ JSON format is as follows:
   "templateid":"12yuasd18237ads512x"
 } */
 
-router.post('/api/SAQ/:_id/answerquestion', (req, res, next) => {
-  AccountSAQ.updateSAQAnswers(req.body.templateid, req.params._id, req.body.answers, (err, acctSAQ) => {
+router.post('/api/SAQ/:_id/completesaq/:templateid', (req, res, next) => {
+  AccountSAQ.updateSAQAnswers(req.params.templateid, req.params._id, req.body.answers, (err, acctSAQ) => {
     if (err) {
       res.json({success: false, message: err.message});
     } else {
@@ -214,7 +214,7 @@ router.post('/api/SAQ/:_id/answerquestion', (req, res, next) => {
           res.json({success: false, message: err.message});
         } else {
           req.body.answers = acctJSON;
-          s3Handling.editForm({Bucket: process.env.S3_BUCKET, Key:req.body.templateid+'.pdf'}, req.body, (err, data) => {
+          s3Handling.editForm({Bucket: process.env.S3_BUCKET, Key:req.params.templateid+'.pdf'}, req.body, (err, data) => {
             if (err) {
               res.json({success: false, message: err.message});
             } else {
