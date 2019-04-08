@@ -32,7 +32,7 @@ private getFromLocal(){
  }
 
 submitSAQ(template: String, saqform: any): Observable<Response>{
-  return this.http.post<Response>(this._url+"/SAQ/"+this.getFromLocal+'/completesaq/'+template, saqform );
+  return this.http.post<Response>(this._url+"/SAQ/"+this.getFromLocal()+'/completesaq/'+template, {answers: saqform} );
 }
 
 }

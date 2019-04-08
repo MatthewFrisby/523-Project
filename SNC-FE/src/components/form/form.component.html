@@ -37,14 +37,14 @@
                   <ng-container *ngIf="i==1; else rest">
                     <div class="col-4">
                           <label [for]="answer">{{answer}}<br/>
-                                <input type="radio" [formControlName]="item._id" value="answer">
+                                <input type="radio" [formControlName]="item._id" [value]="answer">
                             </label>
                     </div>
                   </ng-container>
                     <ng-template #rest>
                       <div class="col-2">
                             <label [for]="answer">{{answer}}<br/>
-                                  <input type="radio" [formControlName]="item._id" value="answer">
+                                  <input type="radio" [formControlName]="item._id" [value]="answer">
                               </label>
                       </div>
                     </ng-template>

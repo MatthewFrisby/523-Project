@@ -14,12 +14,12 @@ var AccountSAQSchema = new mongoose.Schema({
     required: true,
   },
   templateid : {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
     ref: 'SAQTemplate'
   },
   answeredquestions : [{
-    type: mongoose.Schema.Types.ObjectId, 
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'AnsweredQuestion',
   }]
@@ -104,7 +104,7 @@ module.exports.buildAccountSAQ = (templateID, userID, name, callback) => {
               });
             }
           }
-        });        
+        });
       });
     }
   });
@@ -116,9 +116,9 @@ module.exports.createAndUpdateSAQ = (tempID, userID, answers, callback) => {
       callback(err);
     } else {
       if (ansq) {
-        updateSAQAnswers(ansq, callback);
+        updateSAQAnswers(ansq, answers, callback);
       } else {
-        buildAccountSAQ(tempID, userID, tempID + userID, (err, ansq) => {
+        AccountSAQ.buildAccountSAQ(tempID, userID, tempID + userID, (err, ansq) => {
           if (err) {
             callback(err);
           } else {
@@ -140,7 +140,7 @@ let updateSAQAnswers = (ansq, answers, callback) => {
         if (err) {
           callback(err);
         } else {
-          if (index + 1 == array.length) 
+          if (index + 1 == array.length)
           callback(null, ansq._id);
         }
       });
