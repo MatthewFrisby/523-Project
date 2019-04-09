@@ -55,9 +55,13 @@ export class UserService  {
         return this.http.get<Response>(this._url+"/superuser/find/"+this.getFromLocal(), {withCredentials: true });
       }
 
+      changePassword(oldPass:String, newPass:String):Observable<Response> {
+        let _id = this.getFromLocal();
+        return this.http.post<Response>(this._url+"/superuser/update/password",{_id: _id, old:oldPass, new:newPass} ,{withCredentials: true });
+      }
+
     logout() {
-        localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
+        localStorage.removeItem('_id');
     }
 
 }

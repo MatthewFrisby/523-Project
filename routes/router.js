@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors');
 const app = express();
+const bcryptjs = require('bcryptjs');
 const Admin = require('../models/Admin');
 const SuperUser = require('../models/SuperUser');
 const AccountSAQ = require('../models/AccountSAQ');
@@ -106,6 +107,41 @@ router.get('/api/superuser/auth', cors(corsOptions),function(req, res, next){
 
 });
 
+router.post('/api/superuser/update/password', cors(corsOptions), (req, res, next) => {
+  if (req.session && req.body._id == req.session.superuserId) {
+
+
+    SuperUser.findById(req.body._id, function(err, superuser){
+      if(err){
+        var err = new Error('SuperUser Not Found');
+        err.status = 401;
+        return next(err);
+      }else{
+        superuser.password = req.body.new;
+        superuser.save(function(error){
+          if(err){
+
+          }else{
+            return res.status(err ? 500 : 200).send(err ? err :
+              {
+              message: "Password Successfully Changed",
+              data:  superuser
+            });
+          }
+        });
+
+      }
+
+    });
+  } else {
+    var err = new Error('Not Authorized');
+    err.status = 400;
+    return next(err);
+  }
+});
+
+
+
 /* Create Subuser. SuperUser ID stored in params._id.
 JSON format passed needs to be as follows:
 {
@@ -209,7 +245,7 @@ router.post('/api/SAQ/:_id/completesaq/:templateid', (req, res, next) => {
   AccountSAQ.createAndUpdateSAQ(req.params.templateid, req.params._id, req.body.answers, (err, acctSAQ) => {
     if (err) {
       return res.json({success: false, message: err.message});
-    } else { 
+    } else {
       AccountSAQ.getAccountSAQJSON(acctSAQ, (err, acctJSON) => {
         if (err) {
           return res.json({success: false, message: err.message});

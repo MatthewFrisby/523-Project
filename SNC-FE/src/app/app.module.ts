@@ -15,6 +15,8 @@ import { RouterModule } from '@angular/router';
 import { Saq } from '@components/saq/saq.component';
 import { Form } from '@components/form/form.component';
 import { Details } from '@components/details/details.component';
+import { Password } from '@components/password/password.component';
+
 
 
 
@@ -28,6 +30,7 @@ import { Details } from '@components/details/details.component';
     Register,
     Pci,
     Account,
+    Password,
     Demo,
     Saq,
     Form,
