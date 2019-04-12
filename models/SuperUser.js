@@ -33,10 +33,25 @@ var SuperUserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  issuper: {
+    type: Boolean,
+    required: true
+  },
+  superuser: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'superuser'
+  },
   subusers: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'SubUser'
-  }]
+    ref: 'superuser'
+  }],
+  saqtemplates: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'SAQTemplate'
+  }],
+  businessinfo: {
+    type: Object
+  }
 },
 {
   timestamps: true
@@ -48,7 +63,6 @@ SuperUserSchema.pre('save', function (next) {
     if (err) {
       return next(err);
     }
-
       superuser.password = hash;
       next();
   })
@@ -76,23 +90,21 @@ SuperUserSchema.statics.authenticate = function (email, password, callback) {
 
 const SuperUser = module.exports = mongoose.model('SuperUser', SuperUserSchema);
 
-module.exports.addSubtoSuper = function(sup, subID, callback) {
-  if (sup.subusers == null) {
-    sup.subusers = [subID];
-  } else {
-  sup.subusers.push(subID);
-  sup.save(callback);
-  }
-}
-
-module.exports.addSuper = function(newSuper, callback) {
+module.exports.addSuper = function(newSuper, callback) {  
   bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newSuper.password, salt, (err, hash) => {
           if (err) {
             return callback(err);
           } else {
             newSuper.password = hash;
-            newSuper.save(callback);
+            newSuper.save((err, sup) => {
+              if (err) {
+                callback(err);
+              } else {
+                if (!sup.issuper) SuperUser.findOneAndUpdate({_id: sup.superuser}, {$push: {subusers: sup._id}});
+                callback(err, sup);
+              }
+            });
           }
       });
   });
