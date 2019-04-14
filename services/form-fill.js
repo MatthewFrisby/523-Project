@@ -651,9 +651,7 @@ function fillForm(writer,data, options) {
 const streams = require('memory-streams');
 const fs = require('fs');
 
-const editForm = (PDFData, formData, callback) => {
-  console.log(PDFData);
-  console.log(formData);
+module.exports.editForm = (PDFData, formData, callback) => {
     // Allows to read PDF from stream
     let inputStream = new hummus.PDFRStreamForBuffer(PDFData.Body);
     let outputStream = new streams.WritableStream();
@@ -673,4 +671,63 @@ const editForm = (PDFData, formData, callback) => {
     callback(null, newDocument);
 }
 
-module.exports = editForm;
+module.exports.editCCW = (PDF, callback) => {
+    let PDFData = PDF.buffer;
+    let ccw = [{
+        constraints: "1",
+        objective: "2",
+        risk: "3",
+        defcomp: "4",
+        validcomp: "5",
+        maintenance: "6"
+    }, {
+        constraints: "7",
+        objective: "8",
+        risk: "9",
+        defcomp: "10",
+        validcomp: "11",
+        maintenance: "12"
+    }];
+
+    let out;
+    let finalWriter;
+
+    ccw.forEach((item, index) => {
+        console.log(index);
+        if (index == 0) {
+            let inputStream = new hummus.PDFRStreamForBuffer(PDFData);
+            out = new streams.WritableStream();
+            finalWriter = hummus.createWriterToModify(inputStream, new hummus.PDFStreamForResponse(out));
+
+            fillForm(finalWriter, item, {
+                defaultTextOptions: {
+                    font: finalWriter.getFontForFile('./tempstore/Roboto-Regular.ttf'),
+                    size: 14,
+                    colorspace: 'gray',
+                    color: 0,
+                },
+            });
+        } else {
+            let inputStream = new hummus.PDFRStreamForBuffer(PDFData);
+            let outputStream = new streams.WritableStream();
+            let writer = hummus.createWriterToModify(inputStream, new hummus.PDFStreamForResponse(outputStream));
+            fillForm(writer, item, {
+                defaultTextOptions: {
+                    font: writer.getFontForFile('./tempstore/Roboto-Regular.ttf'),
+                    size: 14,
+                    colorspace: 'gray',
+                    color: 0,
+                },
+            });
+            writer.end();
+            outputStream.end();
+            let temp = new hummus.PDFRStreamForBuffer(outputStream.toBuffer());
+            finalWriter.appendPDFPagesFromPDF(temp);
+        }
+    });
+
+    finalWriter.end();
+    out.end();
+    let newDocument = out.toBuffer();
+    callback(null, newDocument);
+}

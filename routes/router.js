@@ -14,6 +14,10 @@ const s3Handling = require('../services/file-upload');
 const mongoose = require('mongoose');
 const Mail = require('../services/email-send');
 const fetch = require("node-fetch");
+const multer  = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+const formFill = require("../services/form-fill");
 
 
 var corsOptions = {
@@ -356,6 +360,22 @@ router.get('/api/test/accountSAQ', (req, res, next) => {
       return res.json({success: false, message: err.message});
     } else {
       return res.json({success: true, questions: newJSON});
+    }
+  });
+});
+
+router.post('/test', upload.single('pdf'), (req, res, next) => {
+  formFill.editCCW(req.file, (err, data) => {
+    if (err) {
+      res.json({success: false, msg: err.message});
+    } else {
+      //res.download(data.Body);
+      res.writeHead(200, {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': 'attachment; filename=some_file.pdf',
+        'Content-Length': data.length
+      });
+      res.end(data);
     }
   });
 });

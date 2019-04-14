@@ -13,7 +13,11 @@ const AnsweredQuestionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'SuperUser'
+  },
+  ccw: {
+    type: Object
   }
+  
 });
 
 const AnsweredQuestion = mongoose.model('AnsweredQuestion', AnsweredQuestionSchema);

@@ -32,7 +32,6 @@ var AccountSAQ = mongoose.model('AccountSAQ', AccountSAQSchema);
 module.exports = AccountSAQ;
 
 module.exports.getAccountSAQJSON = (AccountSAQId, callback) => {
-  let JSONvar = {};
   AccountSAQ.findById(AccountSAQId).populate({
     path: 'answeredquestions',
     populate: {path: 'question'}
@@ -42,6 +41,7 @@ module.exports.getAccountSAQJSON = (AccountSAQId, callback) => {
     } else {
       console.log(populatedSAQ);
       let superuser = populatedSAQ.superuserid;
+      let JSONvar = superuser.businessinfo;
       JSONvar["Company Name"] = superuser.company;
       JSONvar["Contact Name"] = superuser.fname + '' + superuser.lname;
       JSONvar["Telephone"] = superuser.telephone;
