@@ -30,7 +30,6 @@ var AccountSAQSchema = new mongoose.Schema({
 
 var AccountSAQ = mongoose.model('AccountSAQ', AccountSAQSchema);
 module.exports = AccountSAQ;
-
 module.exports.getAccountSAQJSON = (AccountSAQId, callback) => {
   AccountSAQ.findById(AccountSAQId).populate({
     path: 'answeredquestions',
@@ -39,24 +38,25 @@ module.exports.getAccountSAQJSON = (AccountSAQId, callback) => {
     if (err) {
       callback(err)
     } else {
-      console.log(populatedSAQ);
+      var setCheck = new Set();
+      setCheck.add("Yes").add("No").add("N/A").add("Yes with CCW");
       let superuser = populatedSAQ.superuserid;
-      let JSONvar = superuser.businessinfo;
-      JSONvar["Company Name"] = superuser.company;
-      JSONvar["Contact Name"] = superuser.fname + '' + superuser.lname;
-      JSONvar["Telephone"] = superuser.telephone;
+      let JSONforFill = superuser.businessinfo;
+      let JSONforCCW = [];
+      JSONforFill["Company Name"] = superuser.company;
+      JSONforFill["Contact Name"] = superuser.fname + '' + superuser.lname;
+      JSONforFill["Telephone"] = superuser.telephone;
       populatedSAQ.answeredquestions.forEach((item, index, array) => {
-        var setCheck = new Set();
-        setCheck.add("Yes").add("No").add("N/A").add("Yes with CCW");
         if (err) {
           callback(err);
         } else {
           if (item.question.answertype == 1 && item.answer != '' && setCheck.has(item.answer)) {
-            JSONvar[item.question._id+item.answer]="X";
+            JSONforFill[item.question._id+item.answer]="X";
+            if (item.answer == "Yes with CCW") JSONforCCW.push(item.ccw);
           } else if (item.question.answertype == 2) {
-            JSONvar[item.question._id] = item.answer;
+            JSONforFill[item.question._id] = item.answer;
           }
-          if (index + 1 == array.length) callback(err, JSONvar);
+          if (index + 1 == array.length) callback(err, JSONforFill);
         }
       });
     }

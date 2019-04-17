@@ -671,24 +671,9 @@ module.exports.editForm = (PDFData, formData, callback) => {
     callback(null, newDocument);
 }
 
-module.exports.editCCW = (PDF, callback) => {
+// This is useless right now.
+module.exports.editCCW = (PDF, ccw, callback) => {
     let PDFData = PDF.buffer;
-    let ccw = [{
-        constraints: "1",
-        objective: "2",
-        risk: "3",
-        defcomp: "4",
-        validcomp: "5",
-        maintenance: "6"
-    }, {
-        constraints: "7",
-        objective: "8",
-        risk: "9",
-        defcomp: "10",
-        validcomp: "11",
-        maintenance: "12"
-    }];
-
     let out;
     let finalWriter;
 
