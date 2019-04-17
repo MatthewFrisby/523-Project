@@ -30,6 +30,7 @@ var AccountSAQSchema = new mongoose.Schema({
 
 var AccountSAQ = mongoose.model('AccountSAQ', AccountSAQSchema);
 module.exports = AccountSAQ;
+
 module.exports.getAccountSAQJSON = (AccountSAQId, callback) => {
   AccountSAQ.findById(AccountSAQId).populate({
     path: 'answeredquestions',
@@ -41,7 +42,8 @@ module.exports.getAccountSAQJSON = (AccountSAQId, callback) => {
       var setCheck = new Set();
       setCheck.add("Yes").add("No").add("N/A").add("Yes with CCW");
       let superuser = populatedSAQ.superuserid;
-      let JSONforFill = superuser.businessinfo;
+      let JSONforFill = [];
+      if (typeof superuser.businessinfo === 'object') JSONforFill = superuser.businessinfo;
       let JSONforCCW = [];
       JSONforFill["Company Name"] = superuser.company;
       JSONforFill["Contact Name"] = superuser.fname + '' + superuser.lname;
@@ -56,7 +58,7 @@ module.exports.getAccountSAQJSON = (AccountSAQId, callback) => {
           } else if (item.question.answertype == 2) {
             JSONforFill[item.question._id] = item.answer;
           }
-          if (index + 1 == array.length) callback(err, JSONforFill);
+          if (index + 1 == array.length) callback(err, JSONforFill, JSONforCCW);
         }
       });
     }
