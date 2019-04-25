@@ -434,6 +434,16 @@ router.post('/api/SAQ/:_id/submitccw', (req, res, next) => {
   });
 });
 
+router.get('/api/SAQ/:_id/downloadccw', (req, res, next) => {
+  AnsweredQuestion.downloadCCW(req.params._id, (err, answers) => {
+    if (err) {
+      return res.json({success: false, message: err.message});
+    } else {
+      return res.xls('ccw.xlsx', answers);
+    }
+  });
+});
+
 router.get('/api/test/accountSAQ', (req, res, next) => {
   AccountSAQ.getAccountSAQJSON(req.body.id, (err, newJSON) => {
     if (err) {

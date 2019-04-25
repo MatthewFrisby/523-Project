@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 var MongoStore = require('connect-mongo')(session);
 var cors = require('cors');
 const dotenv = require('dotenv');
+var json2xls = require('json2xls');
 dotenv.config()
 // Connect to MongoDB
 
@@ -52,6 +53,9 @@ app.use(cors({credentials: true, origin: 'http://localhost:4200'}));
 // serve static files from template
 //app.use(express.static(__dirname + '/template'));
 
+// Allows sending excel sheets from server
+app.use(json2xls.middleware);
+
 // Include routes
 var routes = require('./routes/router');
 app.use('/', routes);
@@ -69,6 +73,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.send(err.message);
 });
+
 
 
 // Listen on port 3000

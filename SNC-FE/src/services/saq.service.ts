@@ -25,7 +25,7 @@ export class SAQService  {
 private getFromLocal(){
   return localStorage.getItem("_id");
 }
-  saqA: string = "5ca775ed893b2a2900108a05";
+
 
  getSAQ(saqType: String): Observable<ResponseA>{
    return this.http.get<ResponseA>(this._url+"/SAQ/"+this.getFromLocal()+"/getsaq/"+saqType);
@@ -50,6 +50,10 @@ getCCW(): Observable<Response>{
 
 submitCCW(ccw: any[], id: string): Observable<Response>{
   return this.http.post<Response>(this._url+"/SAQ/"+this.getFromLocal()+'/submitccw', {_id: id, data: ccw});
+}
+
+ccwURL(){
+  return this._url+"/SAQ/"+this.getFromLocal()+'/downloadccw';
 }
 
 getForm(key: String): Observable<ArrayBuffer>{
