@@ -23,6 +23,7 @@ export class Ccw implements OnInit {
   ) { }
   loaded: boolean;
   type: string;
+  view = false;
   saqForm: FormGroup;
   ccwForm: FormGroup;
   enum = SAQEnum;
@@ -176,7 +177,7 @@ export class Ccw implements OnInit {
         temparray.push({header: key, response: array[i][key]})
     });
 
-    this.saq.submitCCW(temparray, temparray[0].response).subscribe(data=>{console.log(data)})
+    this.saq.submitCCW(temparray, temparray[0].response).subscribe(data=>{this.view = true; this.router.navigate(['../'], { relativeTo: this.route })});
 
     temparray=[];
   };
