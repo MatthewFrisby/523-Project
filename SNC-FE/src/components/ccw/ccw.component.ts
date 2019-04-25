@@ -116,12 +116,12 @@ export class Ccw implements OnInit {
         //  for (let j = 0; j < this.headers.length; j++) {
         //console.log(`${this.questions[i].question._id}_${this.headers[j]}`);
         //group[`${this.questions[i].question._id}_${this.headers[j]}`] =  this.questions[i].ccw.response;
-        group[`${this.questions[i].question._id}_${this.headers[0]}`] = this.questions[i].ccw[0].response;
-        group[`${this.questions[i].question._id}_${this.headers[1]}`] = this.questions[i].ccw[1].response;
-        group[`${this.questions[i].question._id}_${this.headers[2]}`] = this.questions[i].ccw[2].response;
-        group[`${this.questions[i].question._id}_${this.headers[3]}`] = this.questions[i].ccw[3].response;
-        group[`${this.questions[i].question._id}_${this.headers[4]}`] = this.questions[i].ccw[4].response;
-        group[`${this.questions[i].question._id}_${this.headers[5]}`] = this.questions[i].ccw[5].response;
+        group[`${this.questions[i].question._id}_${this.headers[0]}`] = this.questions[i].ccw[0].response || "";
+        group[`${this.questions[i].question._id}_${this.headers[1]}`] = this.questions[i].ccw[1].response || "";
+        group[`${this.questions[i].question._id}_${this.headers[2]}`] = this.questions[i].ccw[2].response || "";
+        group[`${this.questions[i].question._id}_${this.headers[3]}`] = this.questions[i].ccw[3].response || "";
+        group[`${this.questions[i].question._id}_${this.headers[4]}`] = this.questions[i].ccw[4].response || "";
+        group[`${this.questions[i].question._id}_${this.headers[5]}`] = this.questions[i].ccw[5].response || "";
         //}
       }
     }
