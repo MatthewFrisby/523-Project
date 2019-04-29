@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/AnsweredQuestion.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/AnsweredQuestion.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module
+ */
+const mongoose = require('mongoose');
+const Users = require('./SuperUser')
+
+/**
+ * Mongoose model for answered questions.
+ * @class AnsweredQuestion
+ * @param {string} question - String ID referencing {@link module:models/Question~Question}
+ * @param {string} answer - The provided answer
+ * @param {ObjectID} templateid - ObjectID refencing {@link module:models/SAQTemplate~SAQTemplate}
+ * @param {array} ccw - Array of objects used to fill out CCW info
+ */
+const AnsweredQuestionSchema = new mongoose.Schema({
+  question: {
+    type: String,
+    required: true,
+    ref: 'Question'
+  },
+  answer: {
+    type: String
+  },
+  superuserid: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'SuperUser'
+  },
+  ccw: [{
+    header: {
+      type: String
+    },
+    response: {
+      type: String
+    }
+  }]
+
+});
+
+const AnsweredQuestion = mongoose.model('AnsweredQuestion', AnsweredQuestionSchema);
+module.exports = AnsweredQuestion;
+
+/**
+ * @callback getCCWCallback
+ * @param {error} err
+ * @param {array} questions - Array of Question IDs {@link module:models/Question~Question}
+ */
+
+/**
+ * Get all the questions that a user has answered with CCW
+ * @param {string} userid
+ * @param {getCCWCallback} callback
+ */
+module.exports.getCCW = (userID, callback) => {
+  // Get user to see if they are super
+  Users.findById(userID).exec((err, user) => {
+    if (err) {
+      return callback(err);
+    } else {
+      // If they aren't a Super, we set the userID to that of the associated SuperUser
+      if (!user.issuper) userID = user.superuser;
+
+      // Query based on userid and answer
+      AnsweredQuestion.find({
+        superuserid: mongoose.Types.ObjectId(userID),
+        answer: "Yes with CCW"
+      }).populate('question').exec((err, questions) => {
+        if (err) {
+          return callback(err);
+        } else {
+          callback(err, questions);
+        }
+      });
+    }
+  });
+}
+
+/**
+ * @callback answerCCWCallback
+ * @param {error} err
+ * @param {array} doc - Updated answeredquestion {@link module:models/Question~Question}
+ */
+
+/**
+ * Get all the questions that a user has answered with CCW
+ * @param {string} userID
+ * @param {string} questionID
+ * @param {string} ccwArray - Array of CCW answers
+ * @param {answerCCWCallback} callback
+ */
+module.exports.answerCCW = (userID, questionID, ccwArray, callback) => {
+  Users.findById(userID).exec((err, user) => {
+    if (err) {
+      return callback(err);
+    } else {
+      // If they aren't a Super, we set the userID to that of the associated SuperUser
+      if (!user.issuper) userID = user.superuser;
+
+      // Query based on userid and answer
+      AnsweredQuestion.findOneAndUpdate({
+        superuserid: mongoose.Types.ObjectId(userID),
+        question: questionID
+      }, {
+        ccw: ccwArray
+      }, {
+        new: true
+      }, (err, doc) => {
+        callback(err, doc);
+      });
+    }
+  });
+}
+
+/**
+ * @callback downloadCCWCallback
+ * @param {error} err
+ * @param {array} arr - Array of JSON with CCW information
+ */
+
+/**
+ * Get all the questions that a user has answered with CCW
+ * @param {string} userID
+ * @param {doawnloadCCWCallback} callback
+ */
+module.exports.downloadCCW = (userID, callback) => {
+  // Get user to see if they are super
+  Users.findById(userID).exec((err, user) => {
+    if (err) {
+      return callback(err);
+    } else {
+      // If they aren't a Super, we set the userID to that of the associated SuperUser
+      if (!user.issuper) userID = user.superuser;
+
+      // Query based on userid and answer
+      AnsweredQuestion.find({
+        superuserid: mongoose.Types.ObjectId(userID),
+        answer: "Yes with CCW"
+      }).populate('question').exec((err, question) => {
+        if (err) {
+          return callback(err);
+        } else {
+          let arr = [];
+          let group = {};
+          for (var i = 0; i &lt; question.length; i++) {
+            var ccwArr = question[i].ccw;
+            group["Requirement"] = question[i].question._id;
+
+            for (var j = 0; j &lt; 6; j++) {
+              group[ccwArr[j].header] = ccwArr[j].response;
+            }
+            arr.push(group);
+            group = {};
+          }
+          callback(err, arr);
+        }
+      });
+    }
+  });
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-models_AccountSAQ.html">models/AccountSAQ</a></li><li><a href="module-models_AnsweredQuestion.html">models/AnsweredQuestion</a></li><li><a href="module-models_Question.html">models/Question</a></li><li><a href="module-models_SAQTemplate.html">models/SAQTemplate</a></li><li><a href="module-models_SuperUser.html">models/SuperUser</a></li><li><a href="module-routes_router.html">routes/router</a></li><li><a href="module-services_file-upload.html">services/file-upload</a></li><li><a href="module-services_form-fill.html">services/form-fill</a></li></ul><h3>Classes</h3><ul><li><a href="module-models_AccountSAQ-AccountSAQ.html">AccountSAQ</a></li><li><a href="module-models_AnsweredQuestion-AnsweredQuestion.html">AnsweredQuestion</a></li><li><a href="module-models_Question-Question.html">Question</a></li><li><a href="module-models_SAQTemplate-SAQTemplate.html">SAQTemplate</a></li><li><a href="module-models_SuperUser-SuperUser.html">SuperUser</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Apr 29 2019 13:02:03 GMT-0500 (GMT-05:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

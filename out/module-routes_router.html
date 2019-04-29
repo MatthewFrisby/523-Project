@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: routes/router</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: routes/router</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Express router.</div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li><a href="https://www.npmjs.com/package/express">https://www.npmjs.com/package/express</a></li>
+        
+            <li><a href="https://www.npmjs.com/package/cors">https://www.npmjs.com/package/cors</a></li>
+        </ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="DownloadCCW"><span class="type-signature">(route) </span>Download CCW<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/SAQ/:_id/downloadccw</td>
+                            </tr>
+                            </table>
+                            Downloads CCW answers in Excel format
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The User ID</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">xls</td>
+            <td class="type">data</td>
+            
+            
+            <td class="description last">Excel sheet with CCW info</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line604">line 604</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="DownloadformfromS3"><span class="type-signature">(route) </span>Download form from S3<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/api/SAQ/getform</td>
+                            </tr>
+                            </table>
+                            Allows you to download from S3
+                            <h5>Body Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">key</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">They key from the file you want</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">data</td>
+            
+            
+            <td class="description last">The file you want</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line459">line 459</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="GetAccountSAQ"><span class="type-signature">(route) </span>Get AccountSAQ<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/SAQ/:_id/getsaq/:templateid</td>
+                            </tr>
+                            </table>
+                            Gets the AnsweredQuestion objects associated with a user and template
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The User ID</td>
+          </tr><tr>
+            <td class="name">templateid</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The SAQTemplate ID</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">array</td>
+            
+            
+            <td class="description last">Array of AnsweredQuestion objects <a href="module-models_AnsweredQuestion-AnsweredQuestion.html">module:models/AnsweredQuestion~AnsweredQuestion</a></td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line509">line 509</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="GetallKeys"><span class="type-signature">(route) </span>Get all Keys<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/admin/S3/keys</td>
+                            </tr>
+                            </table>
+                            Lists all the keys in the entire S3 bucket for testing purposes
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">array</td>
+            
+            
+            <td class="description last">All the keys in our bucket</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line485">line 485</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="GetCCW"><span class="type-signature">(route) </span>Get CCW<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/SAQ/:_id/getccw</td>
+                            </tr>
+                            </table>
+                            Gets all of the Yes with CCW answers associated with a User
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The User ID</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">array</td>
+            
+            
+            <td class="description last">Array of populated AnsweredQuestion objects <a href="module-models_AnsweredQuestion-AnsweredQuestion.html">module:models/AnsweredQuestion~AnsweredQuestion</a></td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line553">line 553</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="GetS3Keys"><span class="type-signature">(route) </span>Get S3 Keys<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/SAQ/:_id/getkeys/:templateid</td>
+                            </tr>
+                            </table>
+                            Pass JSON with Folder key to the Folder you want (typically a User ID).
+Returns an array of the keys of all files in that folder
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The ID of the user whos corresponding keys you want</td>
+          </tr><tr>
+            <td class="name">templateid</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The ID of the SAQ template who you want files for</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">array</td>
+            
+            
+            <td class="description last">Array of S3 keys</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line433">line 433</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="GetSAQTemplateQuestions"><span class="type-signature">(route) </span>Get SAQTemplate Questions<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/SAQ:id</td>
+                            </tr>
+                            </table>
+                            Get Questions from SAQTemplate
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The ID of the SAQTemplate</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">object</td>
+            
+            
+            <td class="description last">Returns an array of questions <a href="module-models_Question-Question.html">module:models/Question~Question</a></td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line344">line 344</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="GetUser"><span class="type-signature">(route) </span>Get User<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/superuser/find/:_id</td>
+                            </tr>
+                            </table>
+                            Get User
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The user ID you want to get</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">object</td>
+            
+            
+            <td class="description last">Returns the User  <a href="module-models_SuperUser-SuperUser.html">module:models/SuperUser~SuperUser</a></td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line208">line 208</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="Login"><span class="type-signature">(route) </span>Login<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/api/login</td>
+                            </tr>
+                            </table>
+                            Login
+                            <h5>Body Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">email</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">password</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">object</td>
+            
+            
+            <td class="description last">Returns the User who just logged in <a href="module-models_SuperUser-SuperUser.html">module:models/SuperUser~SuperUser</a></td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line179">line 179</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="SAQAssignments"><span class="type-signature">(route) </span>SAQ Assignments<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/saqassignments/:_id</td>
+                            </tr>
+                            </table>
+                            Gets an array of SAQTemplate IDs a user has access to
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The ID of the user you want acess to</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">array</td>
+            
+            
+            <td class="description last">If the user is a SubUser it will return an array of SAQTemplate IDs,  <a href="module-models_SAQTemplate-SAQTemplate.html">module:models/SAQTemplate~SAQTemplate</a>. If the user is a Super, it will return true for a super</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line155">line 155</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="SubmitAccountSAQ"><span class="type-signature">(route) </span>Submit AccountSAQ<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/api/SAQ/:_id/completesaq/:templateid</td>
+                            </tr>
+                            </table>
+                            Complete SAQ. This route does a lot. It takes a User ID, SAQTemplate ID, and a JSON of answers.
+It creates/updates the relevant AccountSAQ, fills the PDF, and uploads it to S3.
+                            <h5>Body Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">answers</td>
+            <td class="type">JSON</td>
+            
+            
+            <td class="description last">JSON with Question IDs as field names and user answers as the corresponding field value</td>
+          </tr>
+          </table>
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The User ID</td>
+          </tr><tr>
+            <td class="name">templateid</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The SAQTemplateID</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">success</td>
+            <td class="type">boolean</td>
+            
+            
+            <td class="description last">True if succesful</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line368">line 368</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="SubmitCCW"><span class="type-signature">(route) </span>Submit CCW<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/api/SAQ/:_id/submitccw</td>
+                            </tr>
+                            </table>
+                            Updates CCW information for one question
+                            <h5>Body Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The regular Question ID</td>
+          </tr><tr>
+            <td class="name">data</td>
+            <td class="type">JSON</td>
+            
+            
+            <td class="description last">JSON of the CCW responses for the question</td>
+          </tr>
+          </table>
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The User ID</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">object</td>
+            
+            
+            <td class="description last">The newly updated AnsweredQuestion object <a href="module-models_AnsweredQuestion-AnsweredQuestion.html">module:models/AnsweredQuestion~AnsweredQuestion</a></td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line577">line 577</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="SubUserRegistration"><span class="type-signature">(route) </span>SubUser Registration<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/api/registersub/:_id</td>
+                            </tr>
+                            </table>
+                            Registers a SubUser
+                            <h5>Body Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">email</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">fname</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">lname</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">password</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">address</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">company</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">telephone</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">saqtemplates</td>
+            <td class="type">array</td>
+            
+            
+            <td class="description last">Array of SAQ template ID's a user has access to</td>
+          </tr>
+          </table>
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The ID of the SuperUser the Sub is under</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">object</td>
+            
+            
+            <td class="description last">Newly created user object  <a href="module-models_SuperUser-SuperUser.html">module:models/SuperUser~SuperUser</a></td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line83">line 83</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="SuperUserRegistration"><span class="type-signature">(route) </span>SuperUser Registration<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/api/register</td>
+                            </tr>
+                            </table>
+                            Registers a SuperUser
+                            <h5>Body Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">email</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">fname</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">lname</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">password</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">address</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">company</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">telephone</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last"></td>
+          </tr><tr>
+            <td class="name">businessinfo</td>
+            <td class="type">JSON</td>
+            
+            
+            <td class="description last">JSON consisting of city, state, country, zipcode, and dba fields</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">object</td>
+            
+            
+            <td class="description last">The newly created user object <a href="module-models_SuperUser-SuperUser.html">module:models/SuperUser~SuperUser</a></td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="UpdatePassword"><span class="type-signature">(route) </span>Update Password<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/api/superuser/update/password</td>
+                            </tr>
+                            </table>
+                            Update user password
+                            <h5>Body Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">_id</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The User ID</td>
+          </tr><tr>
+            <td class="name">new</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The new password</td>
+          </tr>
+          </table>
+                            <h5>Response:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">data</td>
+            <td class="type">object</td>
+            
+            
+            <td class="description last">Returns the User who we changed  <a href="module-models_SuperUser-SuperUser.html">module:models/SuperUser~SuperUser</a></td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="routes_router.js.html">routes/router.js</a>, <a href="routes_router.js.html#line249">line 249</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-models_AccountSAQ.html">models/AccountSAQ</a></li><li><a href="module-models_AnsweredQuestion.html">models/AnsweredQuestion</a></li><li><a href="module-models_Question.html">models/Question</a></li><li><a href="module-models_SAQTemplate.html">models/SAQTemplate</a></li><li><a href="module-models_SuperUser.html">models/SuperUser</a></li><li><a href="module-routes_router.html">routes/router</a></li><li><a href="module-services_file-upload.html">services/file-upload</a></li><li><a href="module-services_form-fill.html">services/form-fill</a></li></ul><h3>Classes</h3><ul><li><a href="module-models_AccountSAQ-AccountSAQ.html">AccountSAQ</a></li><li><a href="module-models_AnsweredQuestion-AnsweredQuestion.html">AnsweredQuestion</a></li><li><a href="module-models_Question-Question.html">Question</a></li><li><a href="module-models_SAQTemplate-SAQTemplate.html">SAQTemplate</a></li><li><a href="module-models_SuperUser-SuperUser.html">SuperUser</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Apr 29 2019 13:02:04 GMT-0500 (GMT-05:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

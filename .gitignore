@@ -5,8 +5,6 @@
 /tmp
 /out-tsc
 .env
-/out
-conf.json
 # dependencies
 /node_modules
 # profiling files

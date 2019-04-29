@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: models/SuperUser.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: models/SuperUser.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module
+ * @requires {@link https://www.npmjs.com/package/mongoose}
+ * @requires {@link https://www.npmjs.com/package/bcryptjs}
+ */
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
+/**
+ * Mongoose model for all users. Innapropriately named SuperUser
+ * @class SuperUser
+ * @param {string} email
+ * @param {string} password - Gets hashed on save
+ * @param {string} fname - User's first name
+ * @param {string} lname - User's last name
+ * @param {string} address
+ * @param {string} company
+ * @param {string} telephone
+ * @param {boolean} issuper - True: SuperUser, False: SubUser
+ * @param {ObjectId} superuser - ObjectID referencing a SuperUser
+ * @param {array} subusers = Array of ObjectIDs referencing SubUsers
+ * @param {array} saqtemplates - Array of string IDs referencing {@link module:models/SAQTemplate~SAQTemplate}
+ * @param {JSON} businessinfo
+ */
+var SuperUserSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    trim: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  fname: {
+    type: String,
+    required: true
+  },
+  lname: {
+    type: String,
+    required: true
+  },
+  address: {
+    type: String,
+    required: true
+  },
+  company: {
+    type: String,
+    required: true
+  },
+  telephone: {
+    type: String,
+    required: true
+  },
+  issuper: {
+    type: Boolean,
+    required: true
+  },
+  superuser: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'superuser'
+  },
+  subusers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'superuser'
+  }],
+  saqtemplates: [{
+    type: String,
+    ref: 'SAQTemplate'
+  }],
+  businessinfo: {
+    type: Object
+  }
+}, {
+  timestamps: true
+});
+
+SuperUserSchema.pre('save', function(next) {
+  var superuser = this;
+  bcrypt.hash(superuser.password, 10, function(err, hash) {
+    if (err) {
+      return next(err);
+    }
+    superuser.password = hash;
+    next();
+  })
+});
+
+SuperUserSchema.post('save', (sub, next) => {
+  console.log(sub);
+  if (!sub.issuper) {
+    SuperUser.findOneAndUpdate({
+      _id: sub.superuser
+    }, {
+      $push: {
+        subusers: sub._id
+      }
+    }).exec((err, super1) => {
+      if (err) {
+        next(err)
+      } else {
+        next();
+      }
+    });
+  } else {
+    next();
+  }
+})
+
+SuperUserSchema.statics.authenticate = function(email, password, callback) {
+  SuperUser.findOne({
+      email: email
+    })
+    .exec(function(err, superuser) {
+      if (err) {
+        return callback(err)
+      } else if (!superuser) {
+        var err = new Error('SuperUser not found.');
+        err.status = 401;
+        return callback(err);
+      }
+      bcrypt.compare(password, superuser.password, function(err, result) {
+        if (result === true) {
+          return callback(null, superuser);
+        } else {
+          return callback();
+        }
+      })
+    });
+}
+
+const SuperUser = module.exports = mongoose.model('SuperUser', SuperUserSchema);
+
+/**
+ * @callback module:models/SuperUser~SAQAssignmentsCallback
+ * @param {error} err
+ * @param {array} user.saqtemplates - Array of SAQTemplate IDs that the user has accees to
+ */
+
+/**
+ * Function to get a users SAQ assignment. Returns true if SuperUser, else returns array of all templates user has access to.
+ * @param {string} id - User ID
+ * @param {module:models/SuperUser~SAQAssignmentsCallback} callback
+ */
+module.exports.SAQAssignments = (id, callback) => {
+  SuperUser.findById(id).exec((err, user) => {
+    if (err) {
+      callback(err);
+    } else {
+      console.log(user);
+      if (user.issuper) {
+        callback(err, true);
+      } else {
+        callback(err, user.saqtemplates);
+      }
+    }
+  });
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-models_AccountSAQ.html">models/AccountSAQ</a></li><li><a href="module-models_AnsweredQuestion.html">models/AnsweredQuestion</a></li><li><a href="module-models_Question.html">models/Question</a></li><li><a href="module-models_SAQTemplate.html">models/SAQTemplate</a></li><li><a href="module-models_SuperUser.html">models/SuperUser</a></li><li><a href="module-routes_router.html">routes/router</a></li><li><a href="module-services_file-upload.html">services/file-upload</a></li><li><a href="module-services_form-fill.html">services/form-fill</a></li></ul><h3>Classes</h3><ul><li><a href="module-models_AccountSAQ-AccountSAQ.html">AccountSAQ</a></li><li><a href="module-models_AnsweredQuestion-AnsweredQuestion.html">AnsweredQuestion</a></li><li><a href="module-models_Question-Question.html">Question</a></li><li><a href="module-models_SAQTemplate-SAQTemplate.html">SAQTemplate</a></li><li><a href="module-models_SuperUser-SuperUser.html">SuperUser</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Apr 29 2019 13:02:04 GMT-0500 (GMT-05:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
