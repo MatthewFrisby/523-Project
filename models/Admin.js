@@ -1,3 +1,5 @@
+// This was for the demo. As of now we don't have admin functionality.
+
 var mongoose = require('mongoose');
 var bcryptjs = require('bcryptjs');
 

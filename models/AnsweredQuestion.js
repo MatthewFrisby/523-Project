@@ -43,7 +43,7 @@ module.exports = AnsweredQuestion;
 /**
  * @callback getCCWCallback
  * @param {error} err
- * @param {array} questions - Array of {@link module:models/Question~Question}
+ * @param {array} questions - Array of Question IDs {@link module:models/Question~Question}
  */
 
 /**
@@ -75,6 +75,19 @@ module.exports.getCCW = (userID, callback) => {
   });
 }
 
+/**
+ * @callback answerCCWCallback
+ * @param {error} err
+ * @param {array} doc - Updated answeredquestion {@link module:models/Question~Question}
+ */
+
+/**
+ * Get all the questions that a user has answered with CCW
+ * @param {string} userID
+ * @param {string} questionID
+ * @param {string} ccwArray - Array of CCW answers
+ * @param {answerCCWCallback} callback
+ */
 module.exports.answerCCW = (userID, questionID, ccwArray, callback) => {
   Users.findById(userID).exec((err, user) => {
     if (err) {
@@ -98,6 +111,17 @@ module.exports.answerCCW = (userID, questionID, ccwArray, callback) => {
   });
 }
 
+/**
+ * @callback downloadCCWCallback
+ * @param {error} err
+ * @param {array} arr - Array of JSON with CCW information
+ */
+
+/**
+ * Get all the questions that a user has answered with CCW
+ * @param {string} userID
+ * @param {doawnloadCCWCallback} callback
+ */
 module.exports.downloadCCW = (userID, callback) => {
   // Get user to see if they are super
   Users.findById(userID).exec((err, user) => {
