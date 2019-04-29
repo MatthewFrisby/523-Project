@@ -9,7 +9,7 @@ const Users = require('./SuperUser');
 /**
  * Mongoose model for account SAQs.
  * @class AccountSAQ
- * @param {ObjectID} superuserid - ID referencing superuserid
+ * @param {ObjectID} superuserid - ID referencing SuperUser
  * @param {string} name - AccountSAQ name
  * @param {string} templateid - String ID referencing SAQTemplate
  * @param {array} answeredquestions - Array of ObjectIDs referencing AnsweredQuestion

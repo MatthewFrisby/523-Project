@@ -9,7 +9,6 @@ const router = express.Router();
 const cors = require('cors');
 const SuperUser = require('../models/SuperUser');
 const AccountSAQ = require('../models/AccountSAQ');
-const SubUser = require('../models/SubUser');
 const Question = require('../models/Question');
 const SAQTemplate = require('../models/SAQTemplate');
 const s3Handling = require('../services/file-upload');
@@ -27,12 +26,20 @@ var corsOptions = {
 router.options('*', cors())
 router.use(cors());
 
-// Superuser registration
 /**
- * Register a user
+ * Registers a SuperUser
  * 
- * @name User Registration
- * @route {POST} /api/register
+ * @name SuperUser Registration
+ * @path {POST} /api/register
+ * @body {string} email
+ * @body {string} fname
+ * @body {string} lname
+ * @body {string} password
+ * @body {string} address
+ * @body {string} company
+ * @body {string} telephone
+ * @body {JSON} businessinfo - JSON consisting of city, state, country, zipcode, and dba fields
+ * @response {object} data - The newly created user object {@link module:models/SuperUser~SuperUser}
  */
 router.post('/api/register', cors(corsOptions), (req, res, next) => {
   var superUserData = {
@@ -73,7 +80,22 @@ router.post('/api/register', cors(corsOptions), (req, res, next) => {
   });
 });
 
-// Subuser registration
+/**
+ * Registers a SubUser
+ * 
+ * @name SubUser Registration
+ * @path {POST} /api/registersub/:_id
+ * @body {string} email
+ * @body {string} fname
+ * @body {string} lname
+ * @body {string} password
+ * @body {string} address
+ * @body {string} company
+ * @body {string} telephone
+ * @body {array} saqtemplates - Array of SAQ template ID's a user has access to
+ * @params {string} _id - The ID of the SuperUser the Sub is under
+ * @response {object} data - Newly created user object  {@link module:models/SuperUser~SuperUser}
+ */
 router.post('/api/registersub/:_id', cors(corsOptions), (req, res, next) => {
   SuperUser.findById(req.params._id).exec((err, superuser) => {
     if (err) {
@@ -130,6 +152,14 @@ router.post('/api/registersub/:_id', cors(corsOptions), (req, res, next) => {
   });
 });
 
+/**
+ * Gets an array of SAQTemplate IDs a user has access to
+ * 
+ * @name SAQ Assignments
+ * @path {GET} /api/saqassignments/:_id
+ * @params {string} _id - The ID of the user you want acess to
+ * @response {array} data - If the user is a SubUser it will return an array of SAQTemplate IDs,  {@link module:models/SAQTemplate~SAQTemplate}. If the user is a Super, it will return true for a super 
+ */
 router.get('/api/saqassignments/:_id', cors(corsOptions), (req, res, next) => {
   SuperUser.SAQAssignments(req.params._id, (err, saqs) => {
     if (err) {
@@ -146,7 +176,15 @@ router.get('/api/saqassignments/:_id', cors(corsOptions), (req, res, next) => {
   });
 });
 
-// Superuser login
+/**
+ * Login
+ * 
+ * @name Login
+ * @path {POST} /api/login
+ * @body {string} email
+ * @body {string} password
+ * @response {object}  data - Returns the User who just logged in {@link module:models/SuperUser~SuperUser}
+ */
 router.post('/api/login', cors(corsOptions), (req, res, next) => {
   var superuserdata = {
     email: req.body.email,
@@ -167,7 +205,14 @@ router.post('/api/login', cors(corsOptions), (req, res, next) => {
   });
 });
 
-//get superuser information
+/**
+ * Get User
+ * 
+ * @name Get User
+ * @path {GET} /api/superuser/find/:_id
+ * @params {string} _id - The user ID you want to get
+ * @response {object}  data - Returns the User  {@link module:models/SuperUser~SuperUser}
+ */
 router.get('/api/superuser/find/:_id', cors(corsOptions), function(req, res, next) {
   SuperUser.findById(req.params._id).exec((err, superuser) => {
     if (err) {
@@ -201,6 +246,15 @@ router.get('/api/superuser/auth', cors(corsOptions), function(req, res, next) {
   });
 });
 
+/**
+ * Update user password
+ * 
+ * @name Update Password
+ * @path {POST} /api/superuser/update/password
+ * @body {string} _id - The User ID
+ * @body {string} new - The new password
+ * @response {object}  data - Returns the User who we changed  {@link module:models/SuperUser~SuperUser}
+ */
 router.post('/api/superuser/update/password', cors(corsOptions), (req, res, next) => {
   if (req.session && req.body._id == req.session.superuserId) {
     SuperUser.findById(req.body._id, function(err, superuser) {
@@ -228,41 +282,8 @@ router.post('/api/superuser/update/password', cors(corsOptions), (req, res, next
   }
 });
 
-/* Create Subuser. SuperUser ID stored in params._id.
-JSON format passed needs to be as follows:
-{
-	"email":"testa@test.com",
-	"password":"1234",
-	"fname":"Test",
-	"lname":"TESTAGAIN",
-	"telephone":"012-345-6789"
-}
-*/
-router.post('/api/:_id/create', cors(corsOptions), (req, res, next) => {
-  if (req.session && req.params._id == req.session.superuserId) {
-    let subUserData = new SubUser();
-    SubUser.addSub(subUserData, (err, savedSub) => {
-      if (err) {
-        return res.json({
-          success: false,
-          message: err.message
-        });
-      } else {
-        return res.json({
-          success: true,
-          message: "Subuser created",
-          data: savedSub
-        });
-      }
-    });
-  } else {
-    var err = new Error('Not Authorized');
-    err.status = 400;
-    return next(err);
-  }
-});
-
 /* Post DB questions
+This is outdated, best option would be to edit the script when new questions/templates are created.
 JSON format as follows, I choose to manually assign IDs so that we can
 better track our form fields and their corresponding IDs.
 {
@@ -292,7 +313,9 @@ router.post('/api/admin/question', (req, res, next) => {
   });
 });
 
-/* Posts SAQ Template. Name is the SAQ type, questions are question IDs
+/* 
+This is outdated, best option would be to edit the script when new questions/templates are created.
+Posts SAQ Template. Name is the SAQ type, questions are question IDs
 {
 	"name":"a",
 	"questions":["a2","a1"]
@@ -318,7 +341,14 @@ router.post('/api/admin/SAQTemplate', (req, res, next) => {
   });
 });
 
-// Get questions from SAQTemplate. Just need to pass it the ID of the SAQTemplate.
+/**
+ * Get Questions from SAQTemplate
+ * 
+ * @name Get SAQTemplate Questions
+ * @path {GET} /api/SAQ:id
+ * @params {string} id - The ID of the SAQTemplate
+ * @response {object}  data - Returns an array of questions {@link module:models/Question~Question}
+ */
 router.get('/api/SAQ/:id', (req, res, next) => {
   SAQTemplate.findById(req.params.id).populate('questions').exec((err, question) => {
     if (err) {
@@ -335,17 +365,17 @@ router.get('/api/SAQ/:id', (req, res, next) => {
   });
 });
 
-/* Call to download and update a certain PDF and the database behind it. JSON needs keys of field ids.
-JSON format is as follows:
-{
-	"answers": {
-		"c73424df44fb900174f5720":"Mark",
-	  "c73424df44fb900174f5721":"itworks",
-		"c73424df44fb900174f5722":"haha!"
-	},
-  "name":"TestWithStreams"
-  "templateid":"12yuasd18237ads512x"
-} */
+/**
+ * Complete SAQ. This route does a lot. It takes a User ID, SAQTemplate ID, and a JSON of answers.
+ * It creates/updates the relevant AccountSAQ, fills the PDF, and uploads it to S3.
+ * 
+ * @name Create SAQ
+ * @path {POST} /api/SAQ/:_id/completesaq/:templateid
+ * @body {JSON} answers - JSON with Question IDs as field names and user answers as the corresponding field value
+ * @params {string} _id - The User ID
+ * @params {string} templateid - The SAQTemplateID
+ * @response {boolean} success - True if succesful
+ */
 router.post('/api/SAQ/:_id/completesaq/:templateid', (req, res, next) => {
   AccountSAQ.createAndUpdateSAQ(req.params.templateid, req.params._id, req.body.answers, (err, acctSAQ) => {
     if (err) {
@@ -400,8 +430,16 @@ router.post('/api/SAQ/:_id/completesaq/:templateid', (req, res, next) => {
   });
 });
 
-/* Pass JSON with Folder key to the Folder you want (typically a User ID).
-Returns an array of the keys of all files in that folder */
+/**
+ * Pass JSON with Folder key to the Folder you want (typically a User ID).
+ * Returns an array of the keys of all files in that folder 
+ * 
+ * @name Get S3 Keys
+ * @path {GET} /api/SAQ/:_id/getkeys/:templateid
+ * @params {string} _id - The ID of the user whos corresponding keys you want
+ * @params {string} templateid - The ID of the SAQ template who you want files for
+ * @response {array} data - Array of S3 keys
+ */
 router.get('/api/SAQ/:_id/getkeys/:templateid', (req, res, next) => {
   s3Handling.getFolderKeys(req.params._id, req.params.templateid, (err, keyArray) => {
     if (err) {
@@ -418,8 +456,14 @@ router.get('/api/SAQ/:_id/getkeys/:templateid', (req, res, next) => {
   });
 });
 
-/* Allows you to download from the S3 bucket if passed a key. */
-router.post('/api/SAQ/getform', (req, res, next) => {
+/**
+ * Allows you to download from S3
+ * 
+ * @name Download form from S3
+ * @path {POST} /api/SAQ/getform
+ * @body {string} key - They key from the file you want
+ * @response {data} data - The file you want
+ */er.post('/api/SAQ/getform', (req, res, next) => {
   s3Handling.downloadFile(req.body.key, (err, data) => {
     if (err) {
       res.json({
@@ -438,7 +482,13 @@ router.post('/api/SAQ/getform', (req, res, next) => {
   });
 });
 
-// Lists all the keys in the S3 bucket for testing purposes
+/**
+ * Lists all the keys in the entire S3 bucket for testing purposes
+ *  
+ * @name Get all Keys
+ * @path {GET} /api/admin/S3/keys
+ * @response {array} data - All the keys in our bucket
+ */
 router.get('/api/admin/S3/keys', (req, res, next) => {
   s3Handling.getFolderKeys(null, (err, keys) => {
     if (err) {
@@ -456,10 +506,15 @@ router.get('/api/admin/S3/keys', (req, res, next) => {
   });
 });
 
-/* Call to create an account SAQ from a SAQ template.
-{
-  "templateid":"ads5123",
-} */
+/**
+ * Gets the AnsweredQuestion objects associated with a user and template
+ *  
+ * @name Get AccountSAQ
+ * @path {GET} /api/SAQ/:_id/getsaq/:templateid
+ * @params {string} _id - The User ID
+ * @params {string} templateid - The SAQTemplate ID
+ * @response {array} data - Array of AnsweredQuestion objects {@link module:models/AnsweredQuestion~AnsweredQuestion}
+ */
 router.get('/api/SAQ/:_id/getsaq/:templateid', (req, res, next) => {
   AccountSAQ.getAccountSAQ(req.params.templateid, req.params._id, (err, newSAQ) => {
     if (err) {
@@ -495,6 +550,14 @@ router.get('/api/SAQ/:_id/getsaq/:templateid', (req, res, next) => {
   });
 });
 
+/**
+ * Gets all of the Yes with CCW answers associated with a User
+ *  
+ * @name Get CCW
+ * @path {GET} /api/SAQ/:_id/getccw
+ * @params {string} _id - The User ID
+ * @response {array} data - Array of populated AnsweredQuestion objects {@link module:models/AnsweredQuestion~AnsweredQuestion}
+ */
 router.get('/api/SAQ/:_id/getccw', (req, res, next) => {
   AnsweredQuestion.getCCW(req.params._id, (err, answers) => {
     if (err) {
@@ -511,6 +574,16 @@ router.get('/api/SAQ/:_id/getccw', (req, res, next) => {
   });
 });
 
+/**
+ * Updates CCW information for one question
+ *  
+ * @name Submit CCW
+ * @path {POST} /api/SAQ/:_id/submitccw
+ * @body {string} _id - The regular Question ID
+ * @body {JSON} data - JSON of the CCW reponses for the question
+ * @params {string} _id - The User ID
+ * @response {object} data - The newly updated AnsweredQuestion object {@link module:models/AnsweredQuestion~AnsweredQuestion}
+ */
 router.post('/api/SAQ/:_id/submitccw', (req, res, next) => {
   req.body.data.shift();
   AnsweredQuestion.answerCCW(req.params._id, req.body._id, req.body.data, (err, quest) => {
@@ -528,6 +601,14 @@ router.post('/api/SAQ/:_id/submitccw', (req, res, next) => {
   });
 });
 
+/**
+ * Downloads CCW answers in Excel format
+ *  
+ * @name Download CCW
+ * @path {GET} /api/SAQ/:_id/downloadccw
+ * @params {string} _id - The User ID
+ * @response {data} xls - Excel sheet with CCW info
+ */
 router.get('/api/SAQ/:_id/downloadccw', (req, res, next) => {
   AnsweredQuestion.downloadCCW(req.params._id, (err, answers) => {
     if (err) {
@@ -537,22 +618,6 @@ router.get('/api/SAQ/:_id/downloadccw', (req, res, next) => {
       });
     } else {
       return res.xls('ccw.xlsx', answers);
-    }
-  });
-});
-
-router.get('/api/test/accountSAQ', (req, res, next) => {
-  AccountSAQ.getAccountSAQJSON(req.body.id, (err, newJSON) => {
-    if (err) {
-      return res.json({
-        success: false,
-        message: err.message
-      });
-    } else {
-      return res.json({
-        success: true,
-        questions: newJSON
-      });
     }
   });
 });
