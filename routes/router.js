@@ -28,6 +28,12 @@ router.options('*', cors())
 router.use(cors());
 
 // Superuser registration
+/**
+ * Register a user
+ * 
+ * @name User Registration
+ * @route {POST} /api/register
+ */
 router.post('/api/register', cors(corsOptions), (req, res, next) => {
   var superUserData = {
     email: req.body.email,
