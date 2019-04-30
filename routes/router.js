@@ -61,6 +61,7 @@ router.post('/api/register', cors(corsOptions), (req, res, next) => {
     } else {
       req.session.superuserId = superuser._id;
       //this is ugly nested for now
+
       var mailData = {
         type: "register",
         email: req.body.email,
